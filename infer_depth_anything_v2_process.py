@@ -77,7 +77,7 @@ class InferDepthAnythingV2(dataprocess.C2dImageTask):
         # Load model
         if param.update or self.model is None:
             self.device = torch.device("cuda" if param.cuda and torch.cuda.is_available() else 'cpu')
-            self.model = load_model(name=param.model_name, param=param, device=self.device)
+            self.model = load_model(name=param.model_name, device=self.device)
             param.update = False
 
         # Inference

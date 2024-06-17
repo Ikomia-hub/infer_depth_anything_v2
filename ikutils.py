@@ -61,7 +61,7 @@ def download_model(name, models_folder):
     except requests.RequestException as e:
         print(f"Failed to download model: {e}")
 
-def load_model(name, param, device='cpu'):
+def load_model(name, device='cpu'):
     """Load the model with specified configuration."""
     model_config = get_model_config(name)
 
