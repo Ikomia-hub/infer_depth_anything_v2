@@ -4,6 +4,7 @@ from infer_depth_anything_v2.infer_depth_anything_v2_process import InferDepthAn
 
 # PyQt GUI framework
 from PyQt5.QtWidgets import *
+from torch.cuda import is_available
 
 
 # --------------------
@@ -22,6 +23,26 @@ class InferDepthAnythingV2Widget(core.CWorkflowTaskWidget):
 
         # Create layout : QGridLayout by default
         self.grid_layout = QGridLayout()
+
+       # Cuda
+        self.check_cuda = pyqtutils.append_check(
+            self.grid_layout, "Cuda", self.parameters.cuda and is_available())
+        self.check_cuda.setEnabled(is_available())
+
+        # Model name
+        self.combo_model = pyqtutils.append_combo(
+            self.grid_layout, "Model name")
+        self.combo_model.addItem("vits")
+        self.combo_model.addItem("vitb")
+        self.combo_model.addItem("vitl")
+
+        # Input size
+        self.spin_input_size = pyqtutils.append_spin(
+                                            self.grid_layout,
+                                            "Input size",
+                                            self.parameters.input_size
+        )
+
         # PyQt -> Qt wrapping
         layout_ptr = qtconversion.PyQtToQt(self.grid_layout)
 
@@ -30,13 +51,13 @@ class InferDepthAnythingV2Widget(core.CWorkflowTaskWidget):
 
     def on_apply(self):
         # Apply button clicked slot
-
-        # Get parameters from widget
-        # Example : self.parameters.window_size = self.spin_window_size.value()
+        self.parameters.model_name = self.combo_model.currentText()
+        self.parameters.cuda = self.check_cuda.isChecked()
+        self.parameters.input_size = self.spin_input_size.value()
+        self.parameters.update = True
 
         # Send signal to launch the algorithm main function
         self.emit_apply(self.parameters)
-
 
 # --------------------
 # - Factory class to build algorithm widget object
