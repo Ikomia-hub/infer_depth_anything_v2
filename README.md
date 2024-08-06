@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="images/icon.png" alt="Algorithm icon">
+  <img src="images/depth_map.jpg" alt="Algorithm icon">
   <h1 align="center">infer_depth_anything_v2</h1>
 </div>
 <br />
@@ -21,7 +21,7 @@
 
 Depth Anything V2, significantly outperforms V1, is a highly practical solution for robust monocular depth estimation.
 
-<img src="https://huggingface.co/spaces/depth-anything/Depth-Anything-V2/resolve/main/assets/teaser.png?download=true" alt="Illustrative image" width="90%" height="90%">
+<img src="https://huggingface.co/spaces/depth-anything/Depth-Anything-V2/resolve/main/assets/teaser.png" alt="Illustrative image" width="90%" height="90%">
 
 ## :rocket: Use with Ikomia API
 
