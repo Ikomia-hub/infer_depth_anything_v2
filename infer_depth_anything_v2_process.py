@@ -46,6 +46,7 @@ class InferDepthAnythingV2(dataprocess.C2dImageTask):
 
     def __init__(self, name, param):
         dataprocess.C2dImageTask.__init__(self, name)
+        self.add_output(dataprocess.CImageIO())
         # Create parameters object
         if param is None:
             self.set_param_object(InferDepthAnythingV2Param())
@@ -90,8 +91,11 @@ class InferDepthAnythingV2(dataprocess.C2dImageTask):
         depth_color_rgb = cv2.cvtColor(depth_color, cv2.COLOR_BGR2RGB)
 
         # Get output (image)
-        output_img = self.get_output(0)
-        output_img.set_image(depth_color_rgb)
+        output_inferno = self.get_output(0)
+        output_inferno.set_image(depth_color_rgb)
+
+        output_grayscale = self.get_output(1)
+        output_grayscale.set_image(depth)
 
         # Step progress bar (Ikomia Studio):
         self.emit_step_progress()

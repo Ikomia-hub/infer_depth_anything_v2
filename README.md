@@ -50,7 +50,8 @@ algo = wf.add_task(name="infer_depth_anything_v2", auto_connect=True)
 wf.run_on(url="https://github.com/Ikomia-dev/notebooks/blob/main/examples/img/img_dog.png?raw=true")
 
 # Display the results
-display(algo.get_output(0).get_image())
+display(algo.get_output(0).get_image()) # Colormap
+display(algo.get_output(1).get_image()) # Grayscale
 ```
 
 ## :sunny: Use with Ikomia Studio
@@ -86,6 +87,7 @@ wf.run_on(url="https://github.com/Ikomia-dev/notebooks/blob/main/examples/img/im
 
 # Display the results
 display(algo.get_output(0).get_image())
+display(algo.get_output(1).get_image())
 ```
 
 ## :mag: Explore algorithm outputs
