@@ -21,7 +21,8 @@
 
 Depth Anything V2, significantly outperforms V1, is a highly practical solution for robust monocular depth estimation.
 
-<img src="https://huggingface.co/spaces/depth-anything/Depth-Anything-V2/resolve/main/assets/teaser.png" alt="Illustrative image" width="90%" height="90%">
+![illustration depth](https://github.com/DepthAnything/Depth-Anything-V2/blob/main/assets/teaser.png?raw=true)
+
 
 ## :rocket: Use with Ikomia API
 
