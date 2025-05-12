@@ -102,7 +102,7 @@ from ikomia.dataprocess.workflow import Workflow
 wf = Workflow()
 
 # Add algorithm
-algo = wf.add_task(name="infer_depth_anything", auto_connect=True)
+algo = wf.add_task(name="infer_depth_anything_v2", auto_connect=True)
 
 # Run on your image  
 wf.run_on(url="https://github.com/Ikomia-dev/notebooks/blob/main/examples/img/img_dog.png?raw=true")
