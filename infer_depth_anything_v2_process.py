@@ -1,9 +1,11 @@
 import copy
+
+import numpy as np
+import torch
+
 from ikomia import core, dataprocess, utils
 import cv2
-import numpy as np
-import os
-import torch
+
 from infer_depth_anything_v2.ikutils import load_model
 
 
@@ -31,11 +33,11 @@ class InferDepthAnythingV2Param(core.CWorkflowTaskParam):
     def get_values(self):
         # Send parameters values to Ikomia Studio or API
         # Create the specific dict structure (string container)
-        params = {}
-        params["model_name"] = str(self.model_name)
-        params["input_size"] = str(self.input_size)
-        params["cuda"] = str(self.cuda)
-
+        params = {
+            "model_name": str(self.model_name),
+            "input_size": str(self.input_size),
+            "cuda": str(self.cuda)
+        }
         return params
 
 # --------------------
@@ -61,6 +63,16 @@ class InferDepthAnythingV2(dataprocess.C2dImageTask):
         # This is handled by the main progress bar of Ikomia Studio
         return 1
 
+    def _load_model(self):
+        param = self.get_param_object()
+        self.device = torch.device("cuda" if param.cuda and torch.cuda.is_available() else 'cpu')
+        self.model = load_model(name=param.model_name, device=self.device)
+        param.update = False
+
+    def init_long_process(self):
+        self._load_model()
+        super().init_long_process()
+
     def run(self):
         # Main function of your algorithm
         # Call begin_task_run() for initialization
@@ -70,16 +82,14 @@ class InferDepthAnythingV2(dataprocess.C2dImageTask):
         param = self.get_param_object()
 
         # Get input :
-        input = self.get_input(0)
+        img_input = self.get_input(0)
 
         # Get image from input/output (numpy array):
-        src_image = input.get_image()
+        src_image = img_input.get_image()
 
         # Load model
-        if param.update or self.model is None:
-            self.device = torch.device("cuda" if param.cuda and torch.cuda.is_available() else 'cpu')
-            self.model = load_model(name=param.model_name, device=self.device)
-            param.update = False
+        if param.update:
+            self._load_model()
 
         # Inference
         with torch.no_grad():
@@ -116,7 +126,7 @@ class InferDepthAnythingV2Factory(dataprocess.CTaskFactory):
         self.info.short_description = "Depth Anything V2 is a highly practical solution for robust monocular depth estimation"
         # relative path -> as displayed in Ikomia Studio algorithm tree
         self.info.path = "Plugins/Python/Depth"
-        self.info.version = "1.0.0"
+        self.info.version = "1.1.0"
         self.info.icon_path = "images/depth_map.jpg"
         self.info.authors = "Lihe Yang, Bingyi Kang, Zilong Huang, Zhen Zhao, Xiaogang Xu, Jiashi Feng, Hengshuang Zhao"
         self.info.article = "Depth Anything V2"
@@ -130,10 +140,17 @@ class InferDepthAnythingV2Factory(dataprocess.CTaskFactory):
         self.info.original_repository = "https://github.com/LiheYoung/Depth-Anything"
         # Python version
         self.info.min_python_version = "3.10.0"
+        # Ikomia version
+        self.info.min_ikomia_version = "0.15.0"
         # Keywords used for search
         self.info.keywords = "Depth Estimation, Pytorch, HuggingFace, map"
         self.info.algo_type = core.AlgoType.INFER
         self.info.algo_tasks = "OTHER"
+        # Min hardware config
+        self.info.hardware_config.min_cpu = 4
+        self.info.hardware_config.min_ram = 16
+        self.info.hardware_config.gpu_required = False
+        self.info.hardware_config.min_vram = 6
 
     def create(self, param=None):
         # Create algorithm object
