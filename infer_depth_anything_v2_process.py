@@ -126,7 +126,7 @@ class InferDepthAnythingV2Factory(dataprocess.CTaskFactory):
         self.info.short_description = "Depth Anything V2 is a highly practical solution for robust monocular depth estimation"
         # relative path -> as displayed in Ikomia Studio algorithm tree
         self.info.path = "Plugins/Python/Depth"
-        self.info.version = "1.1.0"
+        self.info.version = "1.1.1"
         self.info.icon_path = "images/depth_map.jpg"
         self.info.authors = "Lihe Yang, Bingyi Kang, Zilong Huang, Zhen Zhao, Xiaogang Xu, Jiashi Feng, Hengshuang Zhao"
         self.info.article = "Depth Anything V2"
