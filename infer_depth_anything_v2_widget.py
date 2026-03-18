@@ -1,10 +1,12 @@
+# PyQt GUI framework
+from PyQt6.QtWidgets import *
+
+from torch.cuda import is_available
+
 from ikomia import core, dataprocess
 from ikomia.utils import pyqtutils, qtconversion
-from infer_depth_anything_v2.infer_depth_anything_v2_process import InferDepthAnythingV2Param
 
-# PyQt GUI framework
-from PyQt5.QtWidgets import *
-from torch.cuda import is_available
+from infer_depth_anything_v2.infer_depth_anything_v2_process import InferDepthAnythingV2Param
 
 
 # --------------------
